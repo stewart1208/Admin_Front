@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Layout, Menu, Dropdown, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { logout } from "../Actions/Auth"; 
+import { logout } from "../Actions/Auth";
 
 const { Header } = Layout;
 const items = ["Pêche", "Transport"].map((label, index) => ({
@@ -24,16 +24,21 @@ const Navbar = () => {
       }
     };
 
-    updateNavbar(); // Met à jour au montage
+    updateNavbar();
 
-    // Écouteur pour mettre à jour après la connexion
+    // Mise à jour après connexion/déconnexion
     window.addEventListener("adminLogin", updateNavbar);
-    return () => window.removeEventListener("adminLogin", updateNavbar);
+    window.addEventListener("adminLogout", updateNavbar);
+    return () => {
+      window.removeEventListener("adminLogin", updateNavbar);
+      window.removeEventListener("adminLogout", updateNavbar);
+    };
   }, []);
 
   const handleLogout = () => {
     logout();
-    setEmail(null);
+    localStorage.removeItem("admin");
+    window.dispatchEvent(new Event("adminLogout")); // Mise à jour des autres composants
     window.location.href = "/login";
   };
 

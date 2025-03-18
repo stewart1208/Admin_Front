@@ -1,9 +1,11 @@
 "use client"
 import React from "react";
-import { Card, Tag, List } from "antd";
+import { Card, Tag} from "antd";
+import Link from "next/link";
 
 const UgpCard = ({ ugp }) => {
   return (
+    <Link href={`/ugp/${ugp.id}`} style={{ textDecoration: "none" }}>
     <Card
       title={ugp.dayra + " - " + ugp.wilaya}
       style={{ width: 400, marginBottom: 16 }}
@@ -19,6 +21,7 @@ const UgpCard = ({ ugp }) => {
         {ugp.state ? <Tag color="green">Actif</Tag> : <Tag color="red">Bloqué</Tag>}
       </p>
     </Card>
+    </Link>
   );
 };
 

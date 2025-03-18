@@ -107,9 +107,7 @@ const UgpComponent = () => {
         dataSource={ugp.ports}
         renderItem={(port) => (
           <List.Item style={{ display: "flex", justifyContent: "center" }}>
-            <Link href={`/port/${port.id}`}>
               <PortCard port={port} />
-            </Link>
           </List.Item>          
         )}
       />
@@ -117,7 +115,7 @@ const UgpComponent = () => {
       <Title level={5} style={{ marginTop: 20 }}>
         Commissions :
       </Title>
-      <List
+      {/*<List
         grid={{ gutter: 16, column: 3 }}
         dataSource={ugp.commissions}
         renderItem={(commission) => (
@@ -125,7 +123,7 @@ const UgpComponent = () => {
             <h1>${commission}</h1>
           </List.Item>          
         )}
-      />
+      />*/}
     </Card>
   );
 };

@@ -14,7 +14,11 @@ const AddUGP = ({ onSuccess }) => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      await createUgp(values); // ✅ Correction ici
+      const data = {
+        ...values,
+        commission: values.commission / 100, // 🔹 Division ici
+      };
+      await createUgp(data);
       message.success("UGP créée avec succès !");
       closeDrawer();
       onSuccess(); // 🔹 Rafraîchir la liste après création
@@ -24,6 +28,7 @@ const AddUGP = ({ onSuccess }) => {
       setLoading(false);
     }
   };
+  
 
   return (
     <>

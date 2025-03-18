@@ -1,16 +1,27 @@
 import api from "../Services/api";
+import Cookies from "js-cookie";
+
+const token = Cookies.get("token")
 
 const getAll = async () => {
-    try {
+  try {
       console.log("🔍 Appel API pour récupérer les ports...");
-      const response = await api.get("/port");
+      console.log("Token : " +token)
+      const response = await api.get("/port", {
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`
+          }
+      });
+
       console.log("✅ Données reçues:", response.data);
       return response.data;
-    } catch (error) {
+  } catch (error) {
       console.error("❌ Erreur API:", error.response?.data || error.message);
       throw error;
-    }
-  };
+  }
+};
+  
 const getById = async (id) => {
   try {
     const response = await api.get(`/port/${id}`);

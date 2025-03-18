@@ -1,40 +1,63 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Menu } from "antd";
 import { useRouter } from "next/navigation";
-import { HomeOutlined, ApartmentOutlined , MoneyCollectOutlined, BankOutlined, UserSwitchOutlined, RadarChartOutlined , UserOutlined, ShoppingCartOutlined } from "@ant-design/icons";
-
+import { 
+  HomeOutlined, ApartmentOutlined, MoneyCollectOutlined, BankOutlined, 
+  UserSwitchOutlined, RadarChartOutlined, UserOutlined, ShoppingCartOutlined ,AppstoreOutlined 
+} from "@ant-design/icons";
 
 const { Sider } = Layout;
 
 const SiderMenu = () => {
   const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = () => {
+      setIsAuthenticated(!!localStorage.getItem("admin"));
+    };
+
+    checkAuth();
+
+    // Écoute les événements de connexion et déconnexion
+    window.addEventListener("adminLogin", checkAuth);
+    window.addEventListener("adminLogout", checkAuth);
+    
+    return () => {
+      window.removeEventListener("adminLogin", checkAuth);
+      window.removeEventListener("adminLogout", checkAuth);
+    };
+  }, []);
 
   const items = [
-    { key: "/", icon: <HomeOutlined />, label: "Home" }, // Accueil
-    { key: "/ugp", icon: <ApartmentOutlined  />, label: "UGP" }, // Gestion des utilisateurs/groupes
-    { key: "/commission", icon: <MoneyCollectOutlined />, label: "Commissions" }, // Gestion des commissions
-    { key: "/port", icon: <BankOutlined />, label: "Ports" }, // Ports maritimes
-    { key: "/mandateur", icon: <UserSwitchOutlined />, label: "Mandateurs" }, // Personnes intermédiaires
-    { key: "/navire", icon: <RadarChartOutlined  />, label: "Navires" }, // Gestion des navires
-    { key: "/client", icon: <UserOutlined />, label: "Clients" }, // Gestion des clients
-    { key: "/article", icon: <ShoppingCartOutlined />, label: "Articles" }, // Articles, produits en vente
-];;
+    { key: "/", icon: <HomeOutlined />, label: "Home" },
+    { key: "/ugp", icon: <ApartmentOutlined />, label: "UGP" },
+    { key: "/commission", icon: <MoneyCollectOutlined />, label: "Commissions" },
+    { key: "/port", icon: <BankOutlined />, label: "Ports" },
+    { key: "/mandateur", icon: <UserSwitchOutlined />, label: "Mandateurs" },
+    { key: "/navire", icon: <RadarChartOutlined />, label: "Navires" },
+    { key: "/client", icon: <UserOutlined />, label: "Clients" },
+    { key: "/article", icon: <ShoppingCartOutlined />, label: "Articles" },
+    { key: "/production", icon: <AppstoreOutlined  />, label: "Productions" },
+  ];
 
-  // Gestion du clic pour naviguer
   const handleClick = (e) => {
     router.push(e.key);
   };
+
+  if (!isAuthenticated) {
+    return null; // Ne pas afficher le menu si l'utilisateur n'est pas connecté
+  }
 
   return (
     <Sider width={200} style={{ background: "#fff" }}>
       <Menu
         mode="inline"
         defaultSelectedKeys={["/"]}
-        defaultOpenKeys={["/"]}
         style={{ height: "100%", borderRight: 0 }}
         items={items}
-        onClick={handleClick} // Ajoute la navigation
+        onClick={handleClick}
       />
     </Sider>
   );

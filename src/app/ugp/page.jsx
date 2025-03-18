@@ -45,9 +45,7 @@ const UgpList = () => {
         dataSource={ugps}
         renderItem={(ugp) => (
           <List.Item style={{ display: "flex", justifyContent: "center" }}>
-            <Link href={`/ugp/${ugp.id}`} style={{ width: "100%" }}>
               <UgpCard ugp={ugp} />
-            </Link>
           </List.Item>
         )}
       />
