@@ -14,7 +14,7 @@ const CommissionCard = ({ commission }) => {
     <Card
       title={`Semestre :${commission.semestre}`}
       hoverable
-      onClick={() => router.push(`/commission/${commission.id}`)}
+      onClick={() => router.push(`/pecherie/commission/${commission.id}`)}
       style={{ marginBottom: 16 }}
     >
       <p>

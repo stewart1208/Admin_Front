@@ -37,7 +37,7 @@ const CommissionsParUGP = () => {
             dataKey="commission"
             fill="#1890ff"
             onClick={(event) => handleBarClick(event)}
-          >
+          > 
             {/* Affichage du nom de l'UGP au milieu de la barre */}
             <LabelList dataKey="ugp.dayra" position="center" fill="#fff" fontSize={14} />
           </Bar>

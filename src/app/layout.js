@@ -1,44 +1,38 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Layout, ConfigProvider } from "antd";
-import { useRouter } from "next/navigation";
-import Navbar from "../Components/NavBar";
-import SiderMenu from "../Components/Sider";
+import Navbar from "@/Components/NavBar";
+import PechSider from "@/Components/Sider/PecheSider";
+import TransportSider from "@/Components/Sider/TransportSider";
 
-const { Content } = Layout;
+const { Content, Sider } = Layout;
 
-const MainLayout = ({ children }) => {
-  const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+export default function RootLayout({ children }) {
+  const [section, setSection] = useState("pecherie");
 
   useEffect(() => {
-    const checkAuth = () => {
-      const admin = localStorage.getItem("admin");
-      if (!admin) {
-        router.push("/login"); // Redirection automatique si pas connecté
-      } else {
-        setIsAuthenticated(true);
-      }
+    const current = localStorage.getItem("currentSection") || "pecherie";
+    setSection(current);
+
+    const handleSectionChange = () => {
+      const updated = localStorage.getItem("currentSection") || "pecherie";
+      setSection(updated);
     };
 
-    checkAuth();
+    window.addEventListener("sectionChange", handleSectionChange);
+    return () => window.removeEventListener("sectionChange", handleSectionChange);
+  }, []);
 
-    window.addEventListener("adminLogin", checkAuth);
-    window.addEventListener("adminLogout", checkAuth);
-
-    return () => {
-      window.removeEventListener("adminLogin", checkAuth);
-      window.removeEventListener("adminLogout", checkAuth);
-    };
-  }, [router]);
   return (
     <html lang="fr">
-      <body style={{margin:0}}>
-        <ConfigProvider style={{margin:0}}>
+      <body style={{ margin: 0 }}>
+        <ConfigProvider>
           <Layout style={{ minHeight: "100vh" }}>
             <Navbar />
             <Layout>
-              <SiderMenu />
+              <Sider width={200} style={{ background: "#fff" }}>
+                {section === "pecherie" ? <PechSider /> : <TransportSider />}
+              </Sider>
               <Layout style={{ padding: "0 24px 24px" }}>
                 <Content style={{ padding: 24, margin: 0, minHeight: 280 }}>
                   {children}
@@ -50,6 +44,4 @@ const MainLayout = ({ children }) => {
       </body>
     </html>
   );
-};
-
-export default MainLayout;
+}

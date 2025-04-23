@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const MandateurCard = ({ mandateur }) => {
   return (
-    <Link href={`/mandateur/${mandateur.id}`} style={{ textDecoration: "none" }}>
+    <Link href={`/pecherie/mandateur/${mandateur.id}`} style={{ textDecoration: "none" }}>
     <Card title={`${mandateur.nom} ${mandateur.prenom}`} style={{ width: 300, margin: 10 }}>
       <p><strong>Téléphone:</strong> {mandateur.numTelephone}</p>
     </Card>

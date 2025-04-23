@@ -14,7 +14,7 @@ export const login = async (email, password) => {
         window.dispatchEvent(new Event("adminLogin")); // Notifier les autres composants
         window.location.reload(); 
 
-        window.location.href = "/";
+        window.location.href = "/pecherie/";
 
         return { token, admin };
     } catch (error) {

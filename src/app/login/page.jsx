@@ -13,7 +13,7 @@ const Login = () => {
         try {
             await login(values.email, values.password);
             message.success("Connexion réussie !");
-            router.push("/"); // Rediriger vers le tableau de bord
+            router.push("/pecherie/"); // Rediriger vers le tableau de bord
         } catch (error) {
             message.error(error.message);
         } finally {

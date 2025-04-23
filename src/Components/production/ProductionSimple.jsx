@@ -8,7 +8,7 @@ const ProductionCard = ({ production }) => {
   };
 
   return (
-    <Link href={`/production/${production.id}`} style={{ textDecoration: "none" }}>
+    <Link href={`/pecherie/production/${production.id}`} style={{ textDecoration: "none" }}>
       <Card title={`${production.montant} DA`} hoverable style={{ width: 300, margin: "10px" }}>
         <p>
           <strong>État:</strong> <span style={etatStyle}>{production.etat ? "Réglé" : "Non Réglé"}</span>

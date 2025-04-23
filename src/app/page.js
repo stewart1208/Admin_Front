@@ -8,9 +8,11 @@ const { Content } = Layout;
 
 const Dashboard = () => {
   return (
-    <Content style={{ padding: 24 }}>
-      <StatistiquesGenerales />
-      <CommissionsParUGP style={{ marginTop: 24 }} />
+    <Content style={{ padding: 0, margin: 0 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        <StatistiquesGenerales />
+        <CommissionsParUGP />
+      </div>
     </Content>
   );
 };

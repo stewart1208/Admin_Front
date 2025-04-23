@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const NavireCard = ({ navire }) => {
   return (
-    <Link href={`/navire/${navire.id}`} style={{ textDecoration: "none" }}>
+    <Link href={`/pecherie/navire/${navire.id}`} style={{ textDecoration: "none" }}>
       <Card
         title={navire.nom}
         hoverable

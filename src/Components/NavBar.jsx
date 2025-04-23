@@ -5,50 +5,58 @@ import { UserOutlined } from "@ant-design/icons";
 import { logout } from "../Actions/Auth";
 
 const { Header } = Layout;
-const items = ["Pêche", "Transport"].map((label, index) => ({
-  key: index + 1,
-  label,
-}));
 
 const Navbar = () => {
   const [email, setEmail] = useState(null);
+  const [currentSection, setCurrentSection] = useState("pecherie");
 
   useEffect(() => {
-    const updateNavbar = () => {
-      const adminData = localStorage.getItem("admin");
-      if (adminData) {
-        const admin = JSON.parse(adminData);
-        setEmail(admin.email);
-      } else {
-        setEmail(null);
-      }
-    };
+    const adminData = localStorage.getItem("admin");
+    if (adminData) {
+      const admin = JSON.parse(adminData);
+      setEmail(admin.email);
+    }
 
-    updateNavbar();
-
-    // Mise à jour après connexion/déconnexion
-    window.addEventListener("adminLogin", updateNavbar);
-    window.addEventListener("adminLogout", updateNavbar);
-    return () => {
-      window.removeEventListener("adminLogin", updateNavbar);
-      window.removeEventListener("adminLogout", updateNavbar);
-    };
+    const savedSection = localStorage.getItem("currentSection") || "pecherie";
+    setCurrentSection(savedSection);
   }, []);
+
+  const handleSectionChange = (key) => {
+    setCurrentSection(key);
+    localStorage.setItem("currentSection", key);
+    window.dispatchEvent(new Event("sectionChange")); // déclenchement du changement
+  };
 
   const handleLogout = () => {
     logout();
     localStorage.removeItem("admin");
-    window.dispatchEvent(new Event("adminLogout")); // Mise à jour des autres composants
+    window.dispatchEvent(new Event("adminLogout"));
     window.location.href = "/login";
   };
 
+  const sectionItems = [
+    { key: "pecherie", label: "Pêcherie" },
+    { key: "transport", label: "Transport" },
+  ];
+
   return (
-    <Header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: 0 }}>
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]} items={items} style={{ flex: 1 }} />
-      
+    <Header style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      {/* Menu des sections */}
+      <Menu
+        theme="dark"
+        mode="horizontal"
+        selectedKeys={[currentSection]}
+        items={sectionItems}
+        onClick={({ key }) => handleSectionChange(key)}
+        style={{ flex: 1 }}
+      />
+
+      {/* Zone d'authentification */}
       {email ? (
         <Dropdown
-          menu={{ items: [{ key: "logout", label: "Se déconnecter", onClick: handleLogout }] }}
+          menu={{
+            items: [{ key: "logout", label: "Se déconnecter", onClick: handleLogout }],
+          }}
         >
           <Button type="text" icon={<UserOutlined />} style={{ color: "white" }}>
             {email}

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 function PortCard({ port,}) {
   return (
-    <Link href={`/port/${port.id}`} style={{ textDecoration: "none" }}>
+    <Link href={`/pecherie/port/${port.id}`} style={{ textDecoration: "none" }}>
     <Card 
         title={port.matricule} 
         style={{ width: 300 }}
