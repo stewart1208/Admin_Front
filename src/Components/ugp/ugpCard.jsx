@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const UgpCard = ({ ugp }) => {
   return (
-    <Link href={`/ugp/${ugp.id}`} style={{ textDecoration: "none" }}>
+    <Link href={`/pecherie/ugp/${ugp.id}`} style={{ textDecoration: "none" }}>
     <Card
       title={ugp.dayra + " - " + ugp.wilaya}
       style={{ width: 400, marginBottom: 16 }}
