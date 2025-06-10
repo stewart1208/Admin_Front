@@ -1,10 +1,11 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import { getAllPorts } from '@/Actions/Transport/Port';
-import { Button, Drawer, Spin, List, Typography } from 'antd';
-import PortCard from '@/Components/Transport/Port/PortCard';
+import { Button, Drawer, Spin, Typography, Table, Tag } from 'antd';
 import PortForm from '@/Components/Transport/Port/PortForm';
 import { PlusOutlined } from '@ant-design/icons';
+import Link from 'next/link';
 
 const { Title } = Typography;
 
@@ -40,6 +41,30 @@ const PortList = () => {
     setOpen(true);
   };
 
+  const columns = [
+    {
+      title: 'Nom',
+      dataIndex: 'commune',
+      key: 'commune',
+      render: (text, record) => (
+        <Link href={`/transport/port/${record.id}`}>
+          <Tag color="geekblue" style={{ cursor: 'pointer' }}>{text}</Tag>
+        </Link>
+      ),
+    },
+    {
+      title: 'Nombre de navires',
+      key: 'navires',
+      render: (_, record) => record.navires?.length || 0,
+    },
+    {
+      title: 'Date de création',
+      dataIndex: 'create_At',
+      key: 'create_At',
+      render: (date) => new Date(date).toLocaleDateString(),
+    },
+  ];
+
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-6">
@@ -58,17 +83,11 @@ const PortList = () => {
       {loading ? (
         <Spin size="large" />
       ) : (
-        <List
-          grid={{ gutter: 24, column: 3 }}
+        <Table
           dataSource={ports}
-          locale={{ emptyText: "Aucun port trouvé." }}
-          renderItem={(port) => (
-            <List.Item>
-              <div  className="cursor-pointer w-full">
-                <PortCard port={port} />
-              </div>
-            </List.Item>
-          )}
+          columns={columns}
+          rowKey="id"
+          pagination={{ pageSize: 5 }}
         />
       )}
 

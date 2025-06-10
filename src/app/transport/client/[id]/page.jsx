@@ -3,6 +3,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getById } from "@/Actions/Transport/Client";
 import { Card, Descriptions, Tag, Spin, Alert } from "antd";
+import Link from "next/link";
 
 const ClientDetail = () => {
   const { id } = useParams();
@@ -43,9 +44,12 @@ const ClientDetail = () => {
         <Descriptions.Item label="Réservations">
           {client.reservations.length > 0 ? (
             client.reservations.map(r => (
+              <Link href={`/transport/reservation/${r.id}`} key={r.id}>
+
               <div key={r.id}>
-                📅 {new Date(r.date).toLocaleDateString()} | Port ID: {r.portid}
+                📅 {new Date(r.date).toLocaleDateString()} 
               </div>
+              </Link>
             ))
           ) : (
             <i>Aucune réservation</i>

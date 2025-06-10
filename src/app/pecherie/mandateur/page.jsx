@@ -1,49 +1,65 @@
 "use client";
 import { useEffect, useState } from "react";
-import { List } from "antd";
-import Link from "next/link";
+import { Table } from "antd";
+import { useRouter } from "next/navigation";
 import { getAll } from "../../../Actions/Mandateur";
-import MandateurCard from "../../../Components/mandateur/MandateurCard";
 
 const MandateursPage = () => {
-    const [mandateurs, setMandateurs] = useState([]);
-    const [loading, setLoading] = useState(true);
-  
-    useEffect(() => {
-      const fetchMandateurs = async () => {
-        try {
-          const data = await getAll();
-          setMandateurs(data);
-        } catch (error) {
-          console.error("Erreur lors du chargement des mandateurs:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-  
-      fetchMandateurs();
-    }, []);
-  
-    return (
-      <div>
-        <h1>Liste des Mandateurs</h1>
-        {loading ? (
-          <p>Chargement...</p>
-        ) : (
-          <List
-            grid={{ gutter: 16, column: 3 }}
-            dataSource={mandateurs}
-            renderItem={(mandateur) => (
-              <List.Item style={{ display: "flex", justifyContent: "center" }}>
-                <Link href={`/pecherie/mandateur/${mandateur.id}`} style={{ width: "100%" }}>
-                  <MandateurCard mandateur={mandateur} />
-                </Link>
-              </List.Item>
-            )}
-          />
-        )}
-      </div>
-    );
-  };
-  
+  const [mandateurs, setMandateurs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchMandateurs = async () => {
+      try {
+        const data = await getAll();
+        setMandateurs(data);
+      } catch (error) {
+        console.error("Erreur lors du chargement des mandateurs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMandateurs();
+  }, []);
+
+  const columns = [
+    {
+      title: "Nom",
+      dataIndex: "nom",
+      key: "nom",
+    },
+    {
+      title: "Prénom",
+      dataIndex: "prenom",
+      key: "prenom",
+    },
+    {
+      title: "Téléphone",
+      dataIndex: "numTelephone",
+      key: "numTelephone",
+    },
+
+  ];
+
+  return (
+    <div>
+      <h1>Liste des Mandateurs</h1>
+      <Table
+        columns={columns}
+        dataSource={mandateurs}
+        loading={loading}
+        rowKey="id"
+        pagination={{ pageSize: 8 }}
+        // REND LA LIGNE CLIQUABLE
+        onRow={(record) => ({
+          onClick: () => router.push(`/pecherie/mandateur/${record.id}`),
+          style: { cursor: "pointer" },
+        })}
+      />
+    </div>
+  );
+};
+
 export default MandateursPage;

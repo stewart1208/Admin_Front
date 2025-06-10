@@ -2,7 +2,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const api = axios.create({
-  baseURL: "https://wrong-sofa-production.up.railway.app/admin",
+ // baseURL: "https://wrong-sofa-production.up.railway.app/admin",
+ baseURL:"http://localhost:3000/admin",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",

@@ -3,6 +3,8 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getById, valider } from "@/Actions/Transport/Proprietaire";
 import { Card, Descriptions, Spin, Alert, Tag, Button, Modal, message } from "antd";
+import Link from "next/link";
+
 
 const ProprietaireDetail = () => {
   const { id } = useParams();
@@ -62,12 +64,18 @@ const ProprietaireDetail = () => {
             {new Date(proprietaire.create_At).toLocaleDateString()}
           </Descriptions.Item>
           <Descriptions.Item label="Navires">
-            {proprietaire.navires.length > 0 ? (
-              proprietaire.navires.join(", ")
-            ) : (
-              <i>Aucun navire</i>
-            )}
-          </Descriptions.Item>
+  {proprietaire.navires.length > 0 ? (
+    proprietaire.navires.map((navire) => (
+      <Link key={navire.id} href={`/transport/navire/${navire.id}`}>
+        <Tag style={{ cursor: "pointer" }} color="blue">
+          {navire.nom}
+        </Tag>
+      </Link>
+    ))
+  ) : (
+    <i>Aucun navire</i>
+  )}
+</Descriptions.Item>
         </Descriptions>
 
         {!proprietaire.state && (
