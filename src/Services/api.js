@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 
 const api = axios.create({
  // baseURL: "https://wrong-sofa-production.up.railway.app/admin",
- baseURL:"http://localhost:3000/admin",
+ baseURL:"https://pecheriapi-production.up.railway.app/admin",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
